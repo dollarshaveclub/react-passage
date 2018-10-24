@@ -1,7 +1,11 @@
-# react-passage
+<img src="https://i.imgur.com/IoreaHU.jpg">
+
+***
+
 Passage helps when linking or redirecting to routes that may or may not be in your react app.
 
 The idea is simple: Wrap Passage around your routes so it knows what routes have been defined in your app. Then, using the `Link` and `Redirect` components from Passage  will honor the HTML5 history API if the route is within your app, otherwise falling back to other means such as anchor tags or `location` redirects.
+
 
 ## Installing
 Install via NPM:
