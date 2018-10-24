@@ -3,6 +3,12 @@ Passage helps when linking or redirecting to routes that may or may not be in yo
 
 The idea is simple: Wrap Passage around your routes so it knows what routes have been defined in your app. Then, using the `Link` and `Redirect` components from Passage  will honor the HTML5 history API if the route is within your app, otherwise falling back to other means such as anchor tags or `location` redirects.
 
+## Installing
+Install via NPM:
+```sh
+npm i @dollarshaveclub/react-passage@latest --save
+```
+
 ## Usage
 Passage provides three exports.
 * A `Passage` component used for identifying routes in your app
@@ -23,6 +29,22 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </Switch>
+    </BrowserRouter>
+  </Passage>
+)
+```
+
+The Passage component accepts an optional prop called `targets`. This is an array of components that you want to search for within your routes file. It has a value of `[Route]` by default.
+
+```js
+const App = () => (
+  <Passage targets={[ Route, MyCustomRoute ]}>
+    <BrowserRouter>
+      <Switch>
+        <MyCustomRoute exact path="/" component={Home} />
+        <MyCustomRoute path="/about" component={About} />
         <Route path="/topics" component={Topics} />
       </Switch>
     </BrowserRouter>
