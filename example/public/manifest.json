@@ -1,0 +1,8 @@
+{
+  "short_name": "@dollarshaveclub/react-passage",
+  "name": "@dollarshaveclub/react-passage",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
