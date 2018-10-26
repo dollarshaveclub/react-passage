@@ -1,0 +1,11 @@
+.passage-container {
+  background: url(./passage.jpg) top center no-repeat;
+  background-size: cover;
+}
+
+.passage-btn {
+  color: #5B6096 !important;
+}
+.passage-btn-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2)
+}

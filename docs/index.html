@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://unpkg.com/@dollarshaveclub/ui@11.0.2/dist/ui.css">
+    <link rel="stylesheet" href="./passage.css">
+    <title>react-passage</title>
+    <meta name="description" content="React Passage: Components that safely link and redirect to internal or external paths 🌄">
+    <meta name="keywords" content="react, javascript">
+    <meta property="og:url" content="https://dollarshaveclub.github.io/react-passage/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="React Passage" />
+    <meta property="og:description" content="Components that safely link and redirect to internal or external paths 🌄" />
+    <meta property="og:image" content="https://dollarshaveclub.github.io/react-passage/og-image.jpg" />
+  </head>
+  <body>
+    <div class="passage-container ui-position--fixed ui-position--fill ui-v-align__container ui-text--center ui-color--charcoal-lightest">
+      <div class="ui-v-align__item">
+        <div class="ui-animate ui-animate__fade-in ui-animate--speed-slow">
+          <a href="https://www.dollarshaveclub.com/" class="ui-display--inline-block" target="_blank">
+            <img src="./logo.png" alt="Dollar Shave Club" width=40 />
+          </a>
+          <h1 class="ui-text__h1 ui-color--charcoal-lightest ui-mb--0 ui-mt--1">React Passage</h1>
+        </div>
+        <div class="ui-grid-container">
+          <div class="ui-grid is-mobile is-centered">
+            <div class="ui-grid-col is-10-mobile is-6-tablet is-4-desktop">
+              <p class="ui-mt--0 ui-mb--2 ui-text--sm ui-animate ui-animate__fade-in ui-animate--delay-2 ui-animate--speed-slow">
+                <a href="https://github.com/dollarshaveclub/react-passage" target="_blank" class="ui-link ui-link--inherit-color"><strong>Passage</strong></a> provides simple components that safely link and redirect to internal or external paths
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ui-animate ui-animate__fade-in ui-animate--delay-4 ui-animate--speed-slow">
+          <div>
+            <a href="https://github.com/dollarshaveclub/react-passage" class="ui-btn ui-btn__primary--inverse passage-btn ui-ml--1 ui-display--inline-block ui-mr--1">View on GitHub</a>
+            <a class="ui-btn ui-btn__secondary--dark js-twitter-btn" target="_blank">Share</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        var keywords = document.querySelector('meta[name="keywords"]').content.split(',').map(function (s) { return s.trim() })
+        var content = document.querySelector('meta[name="description"]').content
+        var twitterButton = document.querySelector('.js-twitter-btn')
+        twitterButton.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(content) + '&url=' + encodeURIComponent('https://dollarshaveclub.github.io/react-passage/') + '&hashtags=' + encodeURIComponent(keywords.join(' '))
+      }
+    </script>
+  </body>
+</html>
