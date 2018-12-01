@@ -32,6 +32,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: npm run eslint:ci
+      - run: npm run test:docs:ci
   test:
     <<: *defaults
     steps:
