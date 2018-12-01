@@ -1,29 +1,47 @@
 import React from 'react'
-import { MemoryRouter, Switch, Route } from 'react-router-dom'
-import { Passage, Link, Redirect } from './index'
+import { Link as ReactRouterLink, MemoryRouter, Switch, Route } from 'react-router-dom'
+import { Passage, Link, Redirect } from '.'
 import renderer from 'react-test-renderer'
 
 describe('react-passage', () => {
-  it('renders an anchor tag without context', () => {
-    const component = renderer.create(<Link to='/blades'>Blades</Link>)
-    expect(component.toJSON()).toMatchSnapshot()
+  describe('when there is no context', () => {
+    const href = '/blades'
+    const component = renderer.create(<Link to={href}>Blades</Link>)
+
+    it('renders an anchor tag', () => {
+      expectComponentToRenderSafeLink(component, 'a', href)
+    })
+
+    it('matches the snapshot', () => {
+      expect(component.toJSON()).toMatchSnapshot()
+    })
   })
 
-  it('renders an anchor tag when a route is unmatched', () => {
+  describe('when a route is unmatched', () => {
+    const href = '/blades'
     const component = renderer.create(
       <Passage>
         <MemoryRouter>
           <Switch>
             <Route path='/get-started' exact render={() => {}} />
-            <Route render={() => <Link to='/blades'>Blades</Link>} />
+            <Route render={() => <Link to={href}>Blades</Link>} />
           </Switch>
         </MemoryRouter>
       </Passage>
     )
-    expect(component.toJSON()).toMatchSnapshot()
+
+    it('renders an anchor tag', () => {
+      expectComponentToRenderSafeLink(component, 'a', href)
+    })
+
+    it('matches the snapshot', () => {
+      expect(component.toJSON()).toMatchSnapshot()
+    })
   })
 
-  it('renders a Link tag when a route is matched', () => {
+  describe('when a route is matched', () => {
+    const href = '/get-started/plan/shave'
+
     const component = renderer.create(
       <Passage>
         <MemoryRouter>
@@ -32,16 +50,20 @@ describe('react-passage', () => {
             <Route path='/users/:id' exact render={() => {}} />
 
             <Route render={() => (
-              <div>
-                <Link to='/get-started/plan/shave'>Shave Core</Link>
-                <Link to='/users/6'>User 6</Link>
-              </div>
+              <Link to={href}>Shave Core</Link>
             )} />
           </Switch>
         </MemoryRouter>
       </Passage>
     )
-    expect(component.toJSON()).toMatchSnapshot()
+
+    it('renders a Link tag', () => {
+      expectComponentToRenderSafeLink(component, ReactRouterLink, href)
+    })
+
+    it('matches the snapshot', () => {
+      expect(component.toJSON()).toMatchSnapshot()
+    })
   })
 
   it('redirects to a route without context', () => {
@@ -79,3 +101,19 @@ describe('react-passage', () => {
     expect(mockVia).toHaveBeenCalledWith('/our-products')
   })
 })
+
+/**
+ * Asserts that the component contains a child link-like element of type componentType with the provided href as a prop.
+ * @param {renderer.ReactTestRenderer} component
+ * @param {string | React.ComponentClass<any, any> | React.FunctionComponent<any>} componentType
+ * @param {string} href
+ * @example const component = renderer.create(<Link to='/foo'>Blades</Link>)
+ * expectComponentToRenderSafeLink(component, Link, '/foo') // passes
+ * expectComponentToRenderSafeLink(component, 'a', '/foo') // does not pass
+ */
+function expectComponentToRenderSafeLink (component, componentType, href) {
+  const safeLink = component.root.findByType(componentType)
+  expect(safeLink).toBeTruthy()
+  const linkHref = safeLink.props.href || safeLink.props.to
+  expect(linkHref).toBe(href)
+}

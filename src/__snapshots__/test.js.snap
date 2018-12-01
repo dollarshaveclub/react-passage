@@ -6,26 +6,17 @@ exports[`react-passage redirects to a matched react route 1`] = `
 </p>
 `;
 
-exports[`react-passage renders a Link tag when a route is matched 1`] = `
-<div>
-  <a
-    data-safelink-type="link"
-    href="/get-started/plan/shave"
-    onClick={[Function]}
-  >
-    Shave Core
-  </a>
-  <a
-    data-safelink-type="link"
-    href="/users/6"
-    onClick={[Function]}
-  >
-    User 6
-  </a>
-</div>
+exports[`react-passage when a route is matched matches the snapshot 1`] = `
+<a
+  data-safelink-type="link"
+  href="/get-started/plan/shave"
+  onClick={[Function]}
+>
+  Shave Core
+</a>
 `;
 
-exports[`react-passage renders an anchor tag when a route is unmatched 1`] = `
+exports[`react-passage when a route is unmatched matches the snapshot 1`] = `
 <a
   data-safelink-type="a"
   href="/blades"
@@ -34,7 +25,7 @@ exports[`react-passage renders an anchor tag when a route is unmatched 1`] = `
 </a>
 `;
 
-exports[`react-passage renders an anchor tag without context 1`] = `
+exports[`react-passage when there is no context matches the snapshot 1`] = `
 <a
   data-safelink-type="a"
   href="/blades"

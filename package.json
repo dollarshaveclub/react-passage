@@ -1,6 +1,6 @@
 {
   "name": "@dollarshaveclub/react-passage",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Link and Redirect to routes safely in your react applications",
   "author": "Jacob Kelley <jacob.kelley@dollarshaveclub.com>",
   "license": "MIT",
