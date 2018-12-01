@@ -9,20 +9,28 @@ The idea is simple: Wrap Passage around your routes so it knows what routes have
 _Note: There may be some issues with nested react routes. [Read more here](https://github.com/dollarshaveclub/react-passage/issues/1)_.
 
 ## Installing
+
 Install via NPM:
+
 ```sh
+
 npm i @dollarshaveclub/react-passage@latest --save
+
 ```
 
 ## Usage
+
 Passage provides three exports.
+
 * A `Passage` component used for identifying routes in your app
-* A `Link` component, use this to safely render react links internal/external routes
-* A `Redirect` component, use this to safely redirect to internal/external routes
+* A `Link` component, use this to render react links internal/external routes
+* A `Redirect` component, use this to redirect to internal/external routes
 
 
-**Wrap the `Passage` component around your routes**
+### Wrap the `Passage` component around your routes
+
 ```js
+
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
@@ -39,11 +47,13 @@ const App = () => (
     </BrowserRouter>
   </Passage>
 )
+
 ```
 
 The Passage component accepts an optional prop called `targets`. This is an array of components that you want to search for within your routes file. It has a value of `[Route]` by default.
 
 ```js
+
 const App = () => (
   <Passage targets={[ Route, MyCustomRoute ]}>
     <BrowserRouter>
@@ -55,10 +65,13 @@ const App = () => (
     </BrowserRouter>
   </Passage>
 )
+
 ```
 
-**Leverage Passage Links and Redirects**
+### Leverage Passage Links and Redirects
+
 ```js
+
 import React from 'react'
 
 import {
@@ -76,7 +89,9 @@ const externalExample = () => (<Redirect to='/external-path' />)
 const changeRedirectExample = () => (
   <Redirect to='/new-website' via={(to) => window.location.href = to} />
 )
+
 ```
 
 # License
+
 MIT
