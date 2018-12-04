@@ -12,7 +12,14 @@ const getRoutes = (children, targets, matches = []) => {
     matches.push(child)
     if (child.props.children) return getRoutes(child.props.children, targets, matches)
   })
-  return matches.filter((child) => targets.includes(child.type))
+  return matches.filter(child => {
+    for (const index in targets) {
+      if (targets[index].toString() === child.type.toString()) {
+        return true
+      }
+    }
+    return false
+  })
 }
 
 // Takes in children and returns a function that will be passed via context.
