@@ -3,7 +3,8 @@ import * as React from 'react'
 import { LinkProps, RedirectProps as ReactRouterRedirectProps, Route } from 'react-router-dom'
 
 export const Link: React.FunctionComponent<LinkProps>
- interface RedirectProps extends ReactRouterRedirectProps, Readonly<{
+
+interface RedirectProps extends ReactRouterRedirectProps, Readonly<{
   via?: (to: LocationDescriptor) => void
 }> {}
 
