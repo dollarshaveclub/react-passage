@@ -95,7 +95,7 @@
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-url": "^2.0.1",
-    "write-good": "^0.13.1"
+    "write-good": "^1.0.1"
   },
   "files": [
     "dist",
