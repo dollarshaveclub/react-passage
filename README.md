@@ -2,7 +2,7 @@
 
 ***
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/dollarshaveclub/react-passage.svg)](https://greenkeeper.io/)
+[![npm version](https://badge.fury.io/js/%40dollarshaveclub%2Freact-passage.svg)](https://badge.fury.io/js/%40dollarshaveclub%2Freact-passage)
 
 Passage helps when linking or redirecting to routes that may or may not be in your react app.
 
