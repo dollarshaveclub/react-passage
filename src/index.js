@@ -9,8 +9,10 @@ const { Provider, Consumer } = createContext()
 // Flattens children into a list and filters by Route
 const getRoutes = (children, targets, matches = []) => {
   Children.forEach(children, (child) => {
-    matches.push(child)
-    if (child.props.children) return getRoutes(child.props.children, targets, matches)
+    if (child) {
+      matches.push(child)
+      if (child.props.children) return getRoutes(child.props.children, targets, matches)
+    }
   })
   return matches.filter(child => {
     for (const index in targets) {
@@ -52,9 +54,11 @@ export const Passage =
 Passage.propTypes = {
   targets: PropTypes.array.isRequired,
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.arrayOf(
+      PropTypes.node
+    ),
     PropTypes.node,
-  ]).isRequired,
+  ]),
 }
 Passage.defaultProps = {
   targets: [Route],
