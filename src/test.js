@@ -100,6 +100,21 @@ describe('react-passage', () => {
     )
     expect(mockVia).toHaveBeenCalledWith('/our-products')
   })
+
+  describe('Children types', () => {
+    it('can handle null children types', () => {
+      renderer.create(
+        <Passage>
+          {null}
+          <MemoryRouter>
+            <Switch>
+              <Route path='/get-started' exact render={() => <p>Redirected!</p>} />
+            </Switch>
+          </MemoryRouter>
+        </Passage>
+      )
+    })
+  })
 })
 
 /**
