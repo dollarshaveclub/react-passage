@@ -87,7 +87,7 @@ const changeRedirectExample = () => (
 ```
 
 ### Override Passage Matching
-Sometimes you do not want to have Passage take effect for certain links. To override the react-router implementations, simply pass `native` as an attribute to the `Link` or `Redirect` component to have it force the native browser implementation (Anchor Tags or `location.assign`, for example).
+Sometimes you do not want to have Passage take effect for certain links. To override the react-router implementations, pass `native` as an attribute to the `Link` or `Redirect` component to have it force the native browser implementation (Anchor Tags or `location.assign`, for example).
 
 ```js
 import React from 'react'
