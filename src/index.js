@@ -27,22 +27,20 @@ const getRoutes = (children, targets, matches = []) => {
 // Takes in children and returns a function that will be passed via context.
 // This function will leverage reacts matchPath function to check if a route
 // has been defined for the provided path
-const MatchFactory = (routes) => (to) => {
-  return Children.map(routes, (route) => {
-    const {
+const MatchFactory = (routes) => (to, override) =>
+  (typeof override === 'boolean')
+    ? override
+    : Children.map(routes, ({
       props: {
         path,
         exact,
         strict,
       },
-    } = route
-    return matchPath(to, {
+    }) => matchPath(to, {
       path,
       exact,
       strict,
-    })
-  }).some((v) => v)
-}
+    })).some((v) => v)
 
 // Sets the context as the matcher function above
 export const Passage =
@@ -66,11 +64,11 @@ Passage.defaultProps = {
 
 // Consumes the matcher function and checks the URL against the defined routes
 export const Link =
-  ({ to, children, ...remainingProps }) =>
+  ({ to, children, native, ...remainingProps }) =>
     <Consumer>
       {doesMatch => {
-        if (!doesMatch || !doesMatch(to)) return <a data-safelink-type='a' href={to} {...remainingProps}>{children}</a>
-        return <ReactRouterLink data-safelink-type='link' to={to} {...remainingProps}>{children}</ReactRouterLink>
+        if (!doesMatch || !doesMatch(to, !native)) return <a data-passage-link-type='anchor' href={to} {...remainingProps}>{children}</a>
+        return <ReactRouterLink data-passage-link-type='pushState' to={to} {...remainingProps}>{children}</ReactRouterLink>
       }}
     </Consumer>
 
@@ -80,15 +78,16 @@ Link.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  native: PropTypes.bool,
 }
 
 // Does a react Redirect if possible, otherwise it falls back to props.via, or
 // in this case, window.location.assign
 export const Redirect =
-  ({ to, via, ...remainingProps }) =>
+  ({ to, via, native, ...remainingProps }) =>
     <Consumer>
       {doesMatch => {
-        if (!doesMatch || !doesMatch(to)) return via(to)
+        if (!doesMatch || !doesMatch(to, native)) return via(to)
         else return <ReactRouterRedirect to={to} {...remainingProps} />
       }}
     </Consumer>
@@ -99,6 +98,7 @@ Redirect.propTypes = {
     PropTypes.string,
   ]).isRequired,
   via: PropTypes.func.isRequired,
+  native: PropTypes.bool,
 }
 
 Redirect.defaultProps = {

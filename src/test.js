@@ -61,6 +61,23 @@ describe('react-passage', () => {
       expectComponentToRenderSafeLink(component, ReactRouterLink, href)
     })
 
+    it('supports native overrides', () => {
+      const nativeComponent = renderer.create(
+        <Passage>
+          <MemoryRouter>
+            <Switch>
+              <Route path='/get-started/plan/:planId' exact render={() => {}} />
+
+              <Route render={() => (
+                <Link to={href} native>Shave Core</Link>
+              )} />
+            </Switch>
+          </MemoryRouter>
+        </Passage>
+      )
+      expect(nativeComponent.toJSON()).toMatchSnapshot()
+    })
+
     it('matches the snapshot', () => {
       expect(component.toJSON()).toMatchSnapshot()
     })

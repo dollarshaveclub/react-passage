@@ -15,9 +15,7 @@ _Note: There may be some issues with nested react routes. [Read more here](https
 Install via NPM:
 
 ```sh
-
 npm i @dollarshaveclub/react-passage@latest --save
-
 ```
 
 ## Usage
@@ -32,7 +30,6 @@ Passage provides three exports.
 ### Wrap the `Passage` component around your routes
 
 ```js
-
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
@@ -49,13 +46,11 @@ const App = () => (
     </BrowserRouter>
   </Passage>
 )
-
 ```
 
 The Passage component accepts an optional prop called `targets`. This is an array of components that you want to search for within your routes file. It has a value of `[Route]` by default.
 
 ```js
-
 const App = () => (
   <Passage targets={[ Route, MyCustomRoute ]}>
     <BrowserRouter>
@@ -67,13 +62,11 @@ const App = () => (
     </BrowserRouter>
   </Passage>
 )
-
 ```
 
 ### Leverage Passage Links and Redirects
 
 ```js
-
 import React from 'react'
 
 import {
@@ -91,7 +84,21 @@ const externalExample = () => (<Redirect to='/external-path' />)
 const changeRedirectExample = () => (
   <Redirect to='/new-website' via={(to) => window.location.href = to} />
 )
+```
 
+### Override Passage Matching
+Sometimes you do not want to have Passage take effect for certain links. To override the react-router implementations, simply pass `native` as an attribute to the `Link` or `Redirect` component to have it force the native browser implementation (Anchor Tags or `location.assign`, for example).
+
+```js
+import React from 'react'
+
+import {
+  Link,
+  Redirect,
+} from '@dollarshaveclub/react-passage'
+
+const plainAnchorTag = <Link to='/about' native>About</Link>
+const plainRedirect = <Redirect via={window.location.assign} to='/About' native>About</Redirect>
 ```
 
 # License

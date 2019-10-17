@@ -8,7 +8,7 @@ exports[`react-passage redirects to a matched react route 1`] = `
 
 exports[`react-passage when a route is matched matches the snapshot 1`] = `
 <a
-  data-safelink-type="link"
+  data-passage-link-type="pushState"
   href="/get-started/plan/shave"
   onClick={[Function]}
 >
@@ -16,10 +16,20 @@ exports[`react-passage when a route is matched matches the snapshot 1`] = `
 </a>
 `;
 
+exports[`react-passage when a route is matched supports native overrides 1`] = `
+<a
+  data-passage-link-type="anchor"
+  href="/get-started/plan/shave"
+>
+  Shave Core
+</a>
+`;
+
 exports[`react-passage when a route is unmatched matches the snapshot 1`] = `
 <a
-  data-safelink-type="a"
+  data-passage-link-type="pushState"
   href="/blades"
+  onClick={[Function]}
 >
   Blades
 </a>
@@ -27,7 +37,7 @@ exports[`react-passage when a route is unmatched matches the snapshot 1`] = `
 
 exports[`react-passage when there is no context matches the snapshot 1`] = `
 <a
-  data-safelink-type="a"
+  data-passage-link-type="anchor"
   href="/blades"
 >
   Blades
