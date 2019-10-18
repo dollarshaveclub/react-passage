@@ -2,7 +2,7 @@ import { LocationDescriptor } from 'history'
 import * as React from 'react'
 import { LinkProps, RedirectProps as ReactRouterRedirectProps, Route } from 'react-router-dom'
 
-export const Link: React.FunctionComponent<LinkProps>
+export const Link: React.FunctionComponent<LinkProps & { ref?: React.RefObject<any> }>
 
 interface RedirectProps extends ReactRouterRedirectProps, Readonly<{
   via?: (to: LocationDescriptor) => void

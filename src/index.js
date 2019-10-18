@@ -1,4 +1,4 @@
-import React, { Children, createContext } from 'react'
+import React, { Children, createContext, forwardRef } from 'react'
 import { Route, Link as ReactRouterLink, Redirect as ReactRouterRedirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { matchPath } from 'react-router'
@@ -65,14 +65,15 @@ Passage.defaultProps = {
 }
 
 // Consumes the matcher function and checks the URL against the defined routes
-export const Link =
-  ({ to, children, ...remainingProps }) =>
+export const Link = forwardRef(
+  ({ to, children, ...remainingProps }, ref) =>
     <Consumer>
       {doesMatch => {
-        if (!doesMatch || !doesMatch(to)) return <a data-safelink-type='a' href={to} {...remainingProps}>{children}</a>
-        return <ReactRouterLink data-safelink-type='link' to={to} {...remainingProps}>{children}</ReactRouterLink>
+        if (!doesMatch || !doesMatch(to)) return <a data-safelink-type='a' href={to} {...remainingProps} ref={ref}>{children}</a>
+        return <ReactRouterLink data-safelink-type='link' to={to} {...remainingProps} ref={ref}>{children}</ReactRouterLink>
       }}
     </Consumer>
+)
 
 Link.propTypes = {
   to: PropTypes.string.isRequired,
