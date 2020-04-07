@@ -37,7 +37,8 @@ const MatchFactory = (routes) => (to) => {
       },
     } = route
 
-    const pathname = typeof to === 'object' ? to.pathname : to
+    const pathname = typeof to === 'string' ? to : ('pathname' in to ? to.pathname : null)
+    if (!pathname) return false
 
     return matchPath(pathname, {
       path,
