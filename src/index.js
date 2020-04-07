@@ -81,7 +81,9 @@ export const Link = forwardRef(
 Link.propTypes = {
   to: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
   ]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
