@@ -42,27 +42,31 @@ describe('react-passage', () => {
   describe('when a route is matched', () => {
     const href = '/get-started/plan/shave'
 
-    const component = renderer.create(
+    const component = (link) => renderer.create(
       <Passage>
         <MemoryRouter>
           <Switch>
             <Route path='/get-started/plan/:planId' exact render={() => {}} />
             <Route path='/users/:id' exact render={() => {}} />
 
-            <Route render={() => (
-              <Link to={href}>Shave Core</Link>
-            )} />
+            <Route render={() => (link)} />
           </Switch>
         </MemoryRouter>
       </Passage>
     )
 
     it('renders a Link tag', () => {
-      expectComponentToRenderSafeLink(component, ReactRouterLink, href)
+      expectComponentToRenderSafeLink(component(<Link to={href}>Shave Core</Link>), ReactRouterLink, href)
     })
 
     it('matches the snapshot', () => {
-      expect(component.toJSON()).toMatchSnapshot()
+      expect(component(<Link to={href}>Shave Core</Link>).toJSON()).toMatchSnapshot()
+    })
+
+    it('matches with a location object', () => {
+      expect(component(<Link to={{
+        pathname: href,
+      }}>Shave Core</Link>).toJSON()).toMatchSnapshot()
     })
   })
 

@@ -36,7 +36,11 @@ const MatchFactory = (routes) => (to) => {
         strict,
       },
     } = route
-    return matchPath(to, {
+
+    const pathname = typeof to === 'string' ? to : ('pathname' in to ? to.pathname : null)
+    if (!pathname) return false
+
+    return matchPath(pathname, {
       path,
       exact,
       strict,
@@ -76,7 +80,12 @@ export const Link = forwardRef(
 )
 
 Link.propTypes = {
-  to: PropTypes.string.isRequired,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  ]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
