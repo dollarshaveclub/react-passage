@@ -1,18 +1,24 @@
-import { LocationDescriptor } from 'history'
-import * as React from 'react'
-import { LinkProps, RedirectProps as ReactRouterRedirectProps, Route } from 'react-router-dom'
+import { FunctionComponent, ReactNode, RefObject } from 'react'
+import {
+  LinkProps,
+  RedirectProps as ReactRouterRedirectProps,
+  Route,
+} from 'react-router-dom'
 
-export const Link: React.FunctionComponent<LinkProps & { ref?: React.RefObject<any> }>
+export const Link: FunctionComponent<LinkProps & {
+  ref?: RefObject<any>
+}>
 
-interface RedirectProps extends ReactRouterRedirectProps, Readonly<{
-  via?: (to: LocationDescriptor) => void
-}> {}
+type RedirectProps = {} & ReactRouterRedirectProps &
+  Readonly<{
+    via?: (to: LinkProps['to']) => void
+  }>
 
-export const Redirect: React.FunctionComponent<RedirectProps>
+export const Redirect: FunctionComponent<RedirectProps>
 
-interface PassageProps extends Readonly<{
-  children: React.ReactNode
+type PassageProps = {} & Readonly<{
+  children: ReactNode
   targets?: Array<typeof Route>
-}> {}
+}>
 
-export const Passage: React.FunctionComponent<PassageProps>
+export const Passage: FunctionComponent<PassageProps>
