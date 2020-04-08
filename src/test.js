@@ -1,7 +1,24 @@
 import React from 'react'
-import { Link as ReactRouterLink, MemoryRouter, Switch, Route } from 'react-router-dom'
+import {
+  Link as ReactRouterLink,
+  MemoryRouter,
+  Switch,
+  Route,
+} from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { Passage, Link, Redirect } from '.'
 import renderer from 'react-test-renderer'
+
+jest.mock('react-router', () => {
+  const reactRouter = jest.requireActual('react-router')
+
+  return {
+    ...reactRouter,
+    useLocation: jest.fn((location) => ({
+      pathname: '/',
+    })),
+  }
+})
 
 describe('react-passage', () => {
   describe('when there is no context', () => {
@@ -23,7 +40,7 @@ describe('react-passage', () => {
       <Passage>
         <MemoryRouter>
           <Switch>
-            <Route path='/get-started' exact render={() => {}} />
+            <Route path="/get-started" exact render={() => {}} />
             <Route render={() => <Link to={href}>Blades</Link>} />
           </Switch>
         </MemoryRouter>
@@ -42,37 +59,59 @@ describe('react-passage', () => {
   describe('when a route is matched', () => {
     const href = '/get-started/plan/shave'
 
-    const component = (link) => renderer.create(
-      <Passage>
-        <MemoryRouter>
-          <Switch>
-            <Route path='/get-started/plan/:planId' exact render={() => {}} />
-            <Route path='/users/:id' exact render={() => {}} />
+    const component = (link) =>
+      renderer.create(
+        <Passage>
+          <MemoryRouter>
+            <Switch>
+              <Route path="/get-started/plan/:planId" exact render={() => {}} />
+              <Route path="/users/:id" exact render={() => {}} />
 
-            <Route render={() => (link)} />
-          </Switch>
-        </MemoryRouter>
-      </Passage>
-    )
+              <Route render={() => link} />
+            </Switch>
+          </MemoryRouter>
+        </Passage>
+      )
 
     it('renders a Link tag', () => {
-      expectComponentToRenderSafeLink(component(<Link to={href}>Shave Core</Link>), ReactRouterLink, href)
+      expectComponentToRenderSafeLink(
+        component(<Link to={href}>Shave Core</Link>),
+        ReactRouterLink,
+        href
+      )
     })
 
     it('matches the snapshot', () => {
-      expect(component(<Link to={href}>Shave Core</Link>).toJSON()).toMatchSnapshot()
+      expect(
+        component(<Link to={href}>Shave Core</Link>).toJSON()
+      ).toMatchSnapshot()
     })
 
     it('matches with a location object', () => {
-      expect(component(<Link to={{
-        pathname: href,
-      }}>Shave Core</Link>).toJSON()).toMatchSnapshot()
+      expect(
+        component(
+          <Link
+            to={{
+              pathname: href,
+            }}
+          >
+            Shave Core
+          </Link>
+        ).toJSON()
+      ).toMatchSnapshot()
+    })
+
+    it('matches with a function that returns a location object', () => {
+      expect(
+        component(<Link to={(location) => location}>Shave Core</Link>).toJSON()
+      ).toMatchSnapshot()
+      expect(useLocation).toHaveBeenCalled()
     })
   })
 
   it('redirects to a route without context', () => {
     const mockVia = jest.fn()
-    renderer.create(<Redirect to='/our-products/shave' via={mockVia} />)
+    renderer.create(<Redirect to="/our-products/shave" via={mockVia} />)
     expect(mockVia).toHaveBeenCalledWith('/our-products/shave')
   })
 
@@ -81,8 +120,12 @@ describe('react-passage', () => {
       <Passage>
         <MemoryRouter>
           <Switch>
-            <Route path='/get-started' exact render={() => <p>Redirected!</p>} />
-            <Route render={() => <Redirect to='/get-started' />} />
+            <Route
+              path="/get-started"
+              exact
+              render={() => <p>Redirected!</p>}
+            />
+            <Route render={() => <Redirect to="/get-started" />} />
           </Switch>
         </MemoryRouter>
       </Passage>
@@ -96,8 +139,14 @@ describe('react-passage', () => {
       <Passage>
         <MemoryRouter>
           <Switch>
-            <Route path='/get-started' exact render={() => <p>Redirected!</p>} />
-            <Route render={() => <Redirect to='/our-products' via={mockVia} />} />
+            <Route
+              path="/get-started"
+              exact
+              render={() => <p>Redirected!</p>}
+            />
+            <Route
+              render={() => <Redirect to="/our-products" via={mockVia} />}
+            />
           </Switch>
         </MemoryRouter>
       </Passage>
@@ -112,7 +161,11 @@ describe('react-passage', () => {
           {null}
           <MemoryRouter>
             <Switch>
-              <Route path='/get-started' exact render={() => <p>Redirected!</p>} />
+              <Route
+                path="/get-started"
+                exact
+                render={() => <p>Redirected!</p>}
+              />
             </Switch>
           </MemoryRouter>
         </Passage>
@@ -130,7 +183,7 @@ describe('react-passage', () => {
  * expectComponentToRenderSafeLink(component, Link, '/foo') // passes
  * expectComponentToRenderSafeLink(component, 'a', '/foo') // does not pass
  */
-function expectComponentToRenderSafeLink (component, componentType, href) {
+function expectComponentToRenderSafeLink(component, componentType, href) {
   const safeLink = component.root.findByType(componentType)
   expect(safeLink).toBeTruthy()
   const linkHref = safeLink.props.href || safeLink.props.to
