@@ -81,6 +81,17 @@ describe('react-passage', () => {
       )
     })
 
+    it('renders a Link tag with Query Parementers', () => {
+      const hrefWithQueryParams = `${href}?foo=bar`
+      const LinkComponent = <Link to={hrefWithQueryParams}>Shave Core</Link>
+      expectComponentToRenderSafeLink(
+        component(LinkComponent),
+        ReactRouterLink,
+        hrefWithQueryParams
+      )
+      expect(LinkComponent).toMatchSnapshot()
+    })
+
     it('matches the snapshot', () => {
       expect(
         component(<Link to={href}>Shave Core</Link>).toJSON()
