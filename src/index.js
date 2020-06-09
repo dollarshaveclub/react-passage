@@ -39,7 +39,9 @@ const MatchFactory = (routes) => (to) => {
       props: { path, exact, strict },
     } = route
 
-    a.href = toStringFromLocationObject(to)
+    const url = toStringFromLocationObject(to)
+    if (!url) return false
+    a.href = url
     const toPath = a.pathname
 
     return matchPath(toPath, {
