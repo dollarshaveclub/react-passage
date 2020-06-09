@@ -37,7 +37,7 @@ exports[`react-passage when a route is matched matches with a location object 1`
 
 exports[`react-passage when a route is matched renders a Link tag with Query Parementers 1`] = `
 <ForwardRef
-  to="/get-started/plan/shave?foo=bar"
+  to="/get-started?source=foo&medium=nav"
 >
   Shave Core
 </ForwardRef>
