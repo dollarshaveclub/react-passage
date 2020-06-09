@@ -33,15 +33,16 @@ const getRoutes = (children, targets, matches = []) => {
 // This function will leverage reacts matchPath function to check if a route
 // has been defined for the provided path
 const MatchFactory = (routes) => (to) => {
+  const a = document.createElement('a')
   return Children.map(routes, (route) => {
     const {
       props: { path, exact, strict },
     } = route
 
-    const pathname = toStringFromLocationObject(to)
-    if (!pathname) return false
+    a.href = toStringFromLocationObject(to)
+    const toPath = a.pathname
 
-    return matchPath(pathname, {
+    return matchPath(toPath, {
       path,
       exact,
       strict,
@@ -69,7 +70,6 @@ Passage.defaultProps = {
 
 export const toStringFromLocationObject = (to, location) => {
   if (typeof to === 'string') return to
-
   const toObj = 'pathname' in to ? to : to(location)
   if (!toObj) return null
 

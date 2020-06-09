@@ -65,6 +65,7 @@ describe('react-passage', () => {
           <MemoryRouter>
             <Switch>
               <Route path="/get-started/plan/:planId" exact render={() => {}} />
+              <Route path="/get-started" exact render={() => {}} />
               <Route path="/users/:id" exact render={() => {}} />
 
               <Route render={() => link} />
@@ -79,6 +80,17 @@ describe('react-passage', () => {
         ReactRouterLink,
         href
       )
+    })
+
+    it('renders a Link tag with Query Parementers', () => {
+      const hrefWithQueryParams = '/get-started?source=foo&medium=nav'
+      const LinkComponent = <Link to={hrefWithQueryParams}>Shave Core</Link>
+      expectComponentToRenderSafeLink(
+        component(LinkComponent),
+        ReactRouterLink,
+        hrefWithQueryParams
+      )
+      expect(LinkComponent).toMatchSnapshot()
     })
 
     it('matches the snapshot', () => {

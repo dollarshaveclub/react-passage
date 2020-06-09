@@ -35,6 +35,14 @@ exports[`react-passage when a route is matched matches with a location object 1`
 </a>
 `;
 
+exports[`react-passage when a route is matched renders a Link tag with Query Parementers 1`] = `
+<ForwardRef
+  to="/get-started?source=foo&medium=nav"
+>
+  Shave Core
+</ForwardRef>
+`;
+
 exports[`react-passage when a route is unmatched matches the snapshot 1`] = `
 <a
   data-safelink-type="a"
