@@ -84,6 +84,9 @@ import {
 // Renders a React Router Link tag if it can, otherwise falls back to an anchor tag
 const aboutExample = () => (<Link to='/about'>About</Link>)
 
+// Force Link to render an anchor tag
+const externalExample = () => (<Link external to='https://www.google.com'>Google</Link>)
+
 // Redirects with react-history if route exists, otherwise, uses window.location.assign
 const externalExample = () => (<Redirect to='/external-path' />)
 
