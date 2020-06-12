@@ -119,6 +119,18 @@ describe('react-passage', () => {
       ).toMatchSnapshot()
       expect(useLocation).toHaveBeenCalled()
     })
+
+    it('matches but is overridden with external flag', () => {
+      expectComponentToRenderSafeLink(
+        component(
+          <Link external to={href}>
+            Shave Core
+          </Link>
+        ),
+        'a',
+        href
+      )
+    })
   })
 
   it('redirects to a route without context', () => {

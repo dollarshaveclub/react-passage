@@ -83,37 +83,39 @@ export const toStringFromLocationObject = (to, location) => {
 }
 
 // Consumes the matcher function and checks the URL against the defined routes
-export const Link = forwardRef(({ to, children, ...remainingProps }, ref) => {
-  const location = useLocation()
+export const Link = forwardRef(
+  ({ to, external, children, ...remainingProps }, ref) => {
+    const location = useLocation()
 
-  return (
-    <Consumer>
-      {(doesMatch) => {
-        if (!doesMatch || !doesMatch(to))
+    return (
+      <Consumer>
+        {(doesMatch) => {
+          if (!doesMatch || external || !doesMatch(to))
+            return (
+              <a
+                data-safelink-type="a"
+                href={toStringFromLocationObject(to, location)}
+                {...remainingProps}
+                ref={ref}
+              >
+                {children}
+              </a>
+            )
           return (
-            <a
-              data-safelink-type="a"
-              href={toStringFromLocationObject(to, location)}
+            <ReactRouterLink
+              data-safelink-type="link"
+              to={to}
               {...remainingProps}
               ref={ref}
             >
               {children}
-            </a>
+            </ReactRouterLink>
           )
-        return (
-          <ReactRouterLink
-            data-safelink-type="link"
-            to={to}
-            {...remainingProps}
-            ref={ref}
-          >
-            {children}
-          </ReactRouterLink>
-        )
-      }}
-    </Consumer>
-  )
-})
+        }}
+      </Consumer>
+    )
+  }
+)
 
 Link.displayName = 'PassageLink'
 
@@ -125,6 +127,7 @@ Link.propTypes = {
     PropTypes.string,
     PropTypes.func,
   ]).isRequired,
+  external: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
