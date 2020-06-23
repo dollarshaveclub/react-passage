@@ -35,29 +35,60 @@ describe('react-passage', () => {
   })
 
   describe('when a route is unmatched', () => {
-    const href = '/blades'
-    const component = renderer.create(
-      <Passage>
-        <MemoryRouter>
-          <Switch>
-            <Route path="/get-started" exact render={() => {}} />
-            <Route render={() => <Link to={href}>Blades</Link>} />
-          </Switch>
-        </MemoryRouter>
-      </Passage>
-    )
+    const renderDummyRouteTree = (link) =>
+      renderer.create(
+        <Passage>
+          <MemoryRouter>
+            <Switch>
+              <Route path="/get-started" exact render={() => {}} />
+              <Route render={() => <Link to={link}>Dummy Link</Link>} />
+            </Switch>
+          </MemoryRouter>
+        </Passage>
+      )
 
-    it('renders an anchor tag', () => {
-      expectComponentToRenderSafeLink(component, 'a', href)
+    it('renders an anchor tag, when path does not match', () => {
+      const href = '/blades'
+      expectComponentToRenderSafeLink(renderDummyRouteTree(href), 'a', href)
+    })
+
+    it('renders an anchor tag, when path the same, but origin is different', () => {
+      const href = 'https://www.google.com/get-started'
+      expectComponentToRenderSafeLink(renderDummyRouteTree(href), 'a', href)
     })
 
     it('matches the snapshot', () => {
-      expect(component.toJSON()).toMatchSnapshot()
+      expect(renderDummyRouteTree('/blades').toJSON()).toMatchSnapshot()
     })
   })
 
   describe('when a route is matched', () => {
-    const href = '/get-started/plan/shave'
+    const hrefRelativeMatch = '/get-started/plan/shave'
+    const hrefFullyQualifiedMatch =
+      'https://uk.dollarshaveclub.com/get-started/plan/shave'
+
+    const MOCK_LOCATION = {
+      hash: '',
+      host: 'uk.dollarshaveclub.com',
+      hostname: 'uk.dollarshaveclub.com',
+      href: 'https://uk.dollarshaveclub.com/',
+      origin: 'https://uk.dollarshaveclub.com',
+      pathname: '/',
+      port: '',
+      protocol: 'https:',
+    }
+
+    let realLocation
+
+    beforeAll(() => {
+      realLocation = window.location
+      delete window.location
+      window.location = MOCK_LOCATION
+    })
+
+    afterAll(() => {
+      window.location = realLocation
+    })
 
     const component = (link) =>
       renderer.create(
@@ -74,11 +105,19 @@ describe('react-passage', () => {
         </Passage>
       )
 
-    it('renders a Link tag', () => {
+    it('renders a Link tag, when relative path matches', () => {
       expectComponentToRenderSafeLink(
-        component(<Link to={href}>Shave Core</Link>),
+        component(<Link to={hrefRelativeMatch}>Shave Core</Link>),
         ReactRouterLink,
-        href
+        hrefRelativeMatch
+      )
+    })
+
+    it('renders a Link tag, when fully qualified url matches', () => {
+      expectComponentToRenderSafeLink(
+        component(<Link to={hrefFullyQualifiedMatch}>Shave Core</Link>),
+        ReactRouterLink,
+        hrefRelativeMatch
       )
     })
 
@@ -95,7 +134,7 @@ describe('react-passage', () => {
 
     it('matches the snapshot', () => {
       expect(
-        component(<Link to={href}>Shave Core</Link>).toJSON()
+        component(<Link to={hrefRelativeMatch}>Shave Core</Link>).toJSON()
       ).toMatchSnapshot()
     })
 
@@ -104,7 +143,7 @@ describe('react-passage', () => {
         component(
           <Link
             to={{
-              pathname: href,
+              pathname: hrefRelativeMatch,
             }}
           >
             Shave Core
@@ -123,12 +162,12 @@ describe('react-passage', () => {
     it('matches but is overridden with external flag', () => {
       expectComponentToRenderSafeLink(
         component(
-          <Link external to={href}>
+          <Link external to={hrefRelativeMatch}>
             Shave Core
           </Link>
         ),
         'a',
-        href
+        hrefRelativeMatch
       )
     })
   })
@@ -210,6 +249,7 @@ describe('react-passage', () => {
 function expectComponentToRenderSafeLink(component, componentType, href) {
   const safeLink = component.root.findByType(componentType)
   expect(safeLink).toBeTruthy()
+
   const linkHref = safeLink.props.href || safeLink.props.to
   expect(linkHref).toBe(href)
 }
