@@ -48,7 +48,7 @@ exports[`react-passage when a route is unmatched matches the snapshot 1`] = `
   data-safelink-type="a"
   href="/blades"
 >
-  Blades
+  Dummy Link
 </a>
 `;
 
