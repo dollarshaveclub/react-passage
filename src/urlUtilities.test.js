@@ -1,4 +1,8 @@
-import { parseUrl, isSameOriginAsCurrentPage } from './urlUtilities'
+import {
+  parseUrl,
+  isSameOriginAsCurrentPage,
+  removeOriginFromUrl,
+} from './urlUtilities'
 
 describe('parseUrl()', () => {
   describe('parsing relative urls', () => {
@@ -80,5 +84,57 @@ describe('isSameOriginAsCurrentPage()', () => {
   it('returns true, when relative url sent', () => {
     const result = isSameOriginAsCurrentPage('/get-started')
     expect(result).toBe(true)
+  })
+})
+
+describe('removeOriginFromUrl()', () => {
+  it('returns correctly, when no path is present', () => {
+    const mockInput = 'http://www.google.com'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/')
+  })
+
+  it('returns correctly, when path is forward slash', () => {
+    const mockInput = 'http://www.google.com/'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/')
+  })
+
+  it('returns correctly, when path is simple string', () => {
+    const mockInput = 'http://www.google.com/now'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/now')
+  })
+
+  it('returns correctly, when path is search param only', () => {
+    const mockInput = 'http://www.google.com?q=chicken'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/?q=chicken')
+  })
+
+  it('returns correctly, when path is hash', () => {
+    const mockInput = 'http://www.google.com#title'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/#title')
+  })
+
+  it('returns correctly, when path is complex', () => {
+    const mockInput = 'http://www.google.com/now?q=chicken#title'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/now?q=chicken#title')
+  })
+
+  it('returns correctly, when url contains no origin', () => {
+    const mockInput = '/shop/all-products'
+    const result = removeOriginFromUrl(mockInput)
+    expect(result).toBe('/shop/all-products')
+  })
+
+  it('throws, when url passed in is an object', () => {
+    const mockInput = { isObject: true }
+    const funcUnderTest = () => {
+      return removeOriginFromUrl(mockInput)
+    }
+    expect(funcUnderTest).toThrow()
   })
 })
