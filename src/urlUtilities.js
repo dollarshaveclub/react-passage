@@ -4,3 +4,14 @@ export function parseUrl(url) {
 
   return urlObj
 }
+
+export const isSameOriginAsCurrentPage = (url) => {
+  if (!window || !window.location) {
+    return false
+  }
+
+  const inputOrigin = parseUrl(url).origin
+  const currentOrigin = window.location.origin
+
+  return inputOrigin === currentOrigin
+}
