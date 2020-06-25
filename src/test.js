@@ -90,7 +90,7 @@ describe('react-passage', () => {
       window.location = realLocation
     })
 
-    const component = (link) =>
+    const renderDummyRoutes = (link) =>
       renderer.create(
         <Passage>
           <MemoryRouter>
@@ -107,7 +107,7 @@ describe('react-passage', () => {
 
     it('renders a Link tag, when relative path matches', () => {
       expectComponentToRenderSafeLink(
-        component(<Link to={hrefRelativeMatch}>Shave Core</Link>),
+        renderDummyRoutes(<Link to={hrefRelativeMatch}>Shave Core</Link>),
         ReactRouterLink,
         hrefRelativeMatch
       )
@@ -115,7 +115,7 @@ describe('react-passage', () => {
 
     it('renders a Link tag, when fully qualified url matches', () => {
       expectComponentToRenderSafeLink(
-        component(<Link to={hrefFullyQualifiedMatch}>Shave Core</Link>),
+        renderDummyRoutes(<Link to={hrefFullyQualifiedMatch}>Shave Core</Link>),
         ReactRouterLink,
         hrefRelativeMatch
       )
@@ -125,7 +125,7 @@ describe('react-passage', () => {
       const hrefWithQueryParams = '/get-started?source=foo&medium=nav'
       const LinkComponent = <Link to={hrefWithQueryParams}>Shave Core</Link>
       expectComponentToRenderSafeLink(
-        component(LinkComponent),
+        renderDummyRoutes(LinkComponent),
         ReactRouterLink,
         hrefWithQueryParams
       )
@@ -134,13 +134,15 @@ describe('react-passage', () => {
 
     it('matches the snapshot', () => {
       expect(
-        component(<Link to={hrefRelativeMatch}>Shave Core</Link>).toJSON()
+        renderDummyRoutes(
+          <Link to={hrefRelativeMatch}>Shave Core</Link>
+        ).toJSON()
       ).toMatchSnapshot()
     })
 
     it('matches with a location object', () => {
       expect(
-        component(
+        renderDummyRoutes(
           <Link
             to={{
               pathname: hrefRelativeMatch,
@@ -154,14 +156,16 @@ describe('react-passage', () => {
 
     it('matches with a function that returns a location object', () => {
       expect(
-        component(<Link to={(location) => location}>Shave Core</Link>).toJSON()
+        renderDummyRoutes(
+          <Link to={(location) => location}>Shave Core</Link>
+        ).toJSON()
       ).toMatchSnapshot()
       expect(useLocation).toHaveBeenCalled()
     })
 
     it('matches but is overridden with external flag', () => {
       expectComponentToRenderSafeLink(
-        component(
+        renderDummyRoutes(
           <Link external to={hrefRelativeMatch}>
             Shave Core
           </Link>
