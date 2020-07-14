@@ -7,6 +7,7 @@ import {
 import { matchPath, useLocation } from 'react-router'
 import PropTypes from 'prop-types'
 import { isSameOriginAsCurrentPage, removeOriginFromUrl } from './urlUtilities'
+import { toLocationObject } from './locationUtils'
 
 // Create our Context API
 const { Provider, Consumer } = createContext()
@@ -107,12 +108,13 @@ export const Link = forwardRef(
               </a>
             )
 
-          const pathname = removeOriginFromUrl(toStringFromLocationObject(to))
+          const toLocationObj = toLocationObject(to)
+          toLocationObj.pathname = removeOriginFromUrl(toLocationObj.pathname)
 
           return (
             <ReactRouterLink
               data-safelink-type="link"
-              to={pathname}
+              to={toLocationObj}
               {...remainingProps}
               ref={ref}
             >
