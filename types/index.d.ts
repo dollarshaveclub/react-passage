@@ -7,6 +7,7 @@ import {
 
 export const Link: FunctionComponent<LinkProps & {
   ref?: RefObject<any>
+  external?: boolean
 }>
 
 type RedirectProps = {} & ReactRouterRedirectProps &
