@@ -85,6 +85,11 @@ describe('isSameOriginAsCurrentPage()', () => {
     const result = isSameOriginAsCurrentPage('/get-started')
     expect(result).toBe(true)
   })
+
+  it('returns true, when hash sent', () => {
+    const result = isSameOriginAsCurrentPage('#main')
+    expect(result).toBe(true)
+  })
 })
 
 describe('removeOriginFromUrl()', () => {
